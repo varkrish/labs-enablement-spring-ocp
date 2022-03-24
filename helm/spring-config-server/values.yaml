@@ -83,3 +83,11 @@ affinity: {}
 
 pvc:
   storage: 5Gi
+
+probes:
+  livenessProbe:
+    enabled: false
+    path: /
+  readinessProbe:
+    enabled: false
+    path: /

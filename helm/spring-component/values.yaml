@@ -85,3 +85,11 @@ spring:
   cloud:  
     config:
       enabled: true
+
+probes:
+  livenessProbe:
+    enabled: false
+    path: /
+  readinessProbe:
+    enabled: false
+    path: /

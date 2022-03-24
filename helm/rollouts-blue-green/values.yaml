@@ -92,4 +92,12 @@ rollouts:
 spring:
   cloud:
     config:
-      enabled: true
+      enabled: false 
+
+probes:
+  livenessProbe:
+    enabled: false
+    path: /
+  readinessProbe:
+    enabled: false
+    path: /

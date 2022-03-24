@@ -1,5 +1,5 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
 metadata:
   name: {{ include "rollouts-blue-green.fullname" . }}
   labels:
@@ -11,6 +11,16 @@ spec:
   selector:
     matchLabels:
       {{- include "rollouts-blue-green.selectorLabels" . | nindent 6 }}
+  strategy:
+    blueGreen:
+      activeService: {{ include "rollouts-blue-green.fullname" . }}
+      previewService: {{ include "rollouts-blue-green.fullname" . }}-preview
+      previewReplicaCount:
+      autoPromotionEnabled: {{ .Values.rollouts.autoPromotionEnabled }}
+      autoPromotionSeconds: {{ .Values.rollouts.autoPromotionSeconds }}
+      scaleDownDelaySeconds: {{ .Values.rollouts.scaleDownDelaySeconds }}
+      scaleDownDelayRevisionLimit: {{ .Values.rollouts.scaleDownDelayRevisionLimit }}
+      abortScaleDownDelaySeconds: {{ .Values.rollouts.abortScaleDownDelaySeconds }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -33,9 +43,14 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: server.port
+              value: {{ .Values.service.port }}
+            - name: SPRING_CLOUD_CONFIG_ENABLED
+              value: {{ .Values.spring.cloud.config.enabled }}
           ports:
             - name: http
-              containerPort: 80
+              containerPort: {{ .Values.service.port }}
               protocol: TCP
           livenessProbe:
             httpGet:

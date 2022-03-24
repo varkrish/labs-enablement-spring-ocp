@@ -38,7 +38,7 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 80
+  port: 8080
 
 ingress:
   enabled: false
@@ -80,3 +80,16 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+rollouts:
+  previewReplicaCount: 1
+  autoPromotionEnabled: true
+  autoPromotionSeconds: 30
+  scaleDownDelaySeconds: 30
+  scaleDownDelayRevisionLimit: 2
+  abortScaleDownDelaySeconds: 30
+
+spring:
+  cloud:
+    config:
+      enabled: true

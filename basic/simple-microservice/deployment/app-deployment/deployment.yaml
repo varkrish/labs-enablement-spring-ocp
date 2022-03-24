@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    image.openshift.io/triggers: '[{"from":{"kind":"ImageStreamTag","name":"springbootapp:latest","namespace":"dev-apps"},"fieldPath":"spec.template.spec.containers[?(@.name==\"springbootapp\")].image"}]'
+  labels:
+    app: springbootapp
+    app.kubernetes.io/component: springbootapp
+    app.kubernetes.io/instance: springbootapp
+  name: springbootapp
+  namespace: dev-apps
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      deployment: springbootapp
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        openshift.io/generated-by: OpenShiftNewApp
+      labels:
+        deployment: springbootapp
+    spec:
+      containers:
+      - image: image-registry.openshift-image-registry.svc:5000/dev-apps/springbootapp:latest
+        imagePullPolicy: IfNotPresent
+        name: springbootapp
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30

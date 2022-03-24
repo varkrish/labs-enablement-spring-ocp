@@ -1,0 +1,8 @@
+apiVersion: project.openshift.io/v1
+kind: Project
+metadata:
+  annotations:
+    openshift.io/description: "Dev environment for Apps"
+    openshift.io/display-name: "dev-apps"
+  name: dev-apps
+

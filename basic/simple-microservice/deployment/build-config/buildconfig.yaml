@@ -1,0 +1,89 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  annotations:
+    openshift.io/generated-by: OpenShiftNewBuild
+  creationTimestamp: "2022-03-24T06:47:21Z"
+  generation: 3
+  labels:
+    build: springbootapp
+  managedFields:
+  - apiVersion: build.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          .: {}
+          f:openshift.io/generated-by: {}
+        f:labels:
+          .: {}
+          f:build: {}
+      f:spec:
+        f:output:
+          f:to: {}
+        f:runPolicy: {}
+        f:source:
+          f:dockerfile: {}
+          f:type: {}
+        f:strategy:
+          f:dockerStrategy:
+            .: {}
+            f:from: {}
+          f:type: {}
+        f:triggers: {}
+    manager: oc
+    operation: Update
+    time: "2022-03-24T06:47:21Z"
+  - apiVersion: build.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:status:
+        f:imageChangeTriggers: {}
+        f:lastVersion: {}
+    manager: openshift-apiserver
+    operation: Update
+    time: "2022-03-24T06:47:24Z"
+  name: springbootapp
+  namespace: dev-apps
+  resourceVersion: "17238434"
+  uid: 543abdc8-d097-4051-81c3-21fe14331b82
+spec:
+  failedBuildsHistoryLimit: 5
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: springbootapp:latest
+  postCommit: {}
+  resources: {}
+  runPolicy: Serial
+  source:
+    dockerfile: |-
+      FROM openjdk:11
+      COPY app.jar /
+      ENTRYPOINT ["java","-jar","/app.jar"]
+    type: Dockerfile
+  strategy:
+    dockerStrategy:
+      from:
+        kind: ImageStreamTag
+        name: openjdk:11
+    type: Docker
+  successfulBuildsHistoryLimit: 5
+  triggers:
+  - github:
+      secret: rFua91wMDm034I8RGsJJ
+    type: GitHub
+  - generic:
+      secret: ojdVWtrdxc7rzr2niwmT
+    type: Generic
+  - type: ConfigChange
+  - imageChange: {}
+    type: ImageChange
+status:
+  imageChangeTriggers:
+  - from:
+      name: openjdk:11
+    lastTriggerTime: null
+    lastTriggeredImageID: openjdk@sha256:4449cc0f4498abae89db038632e21301f7c3efe7f547cff10f4c6ff8dad5cba7
+  lastVersion: 2

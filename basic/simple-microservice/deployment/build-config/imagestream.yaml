@@ -1,0 +1,20 @@
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  annotations:
+    openshift.io/generated-by: OpenShiftNewBuild
+  generation: 1
+  labels:
+    build: springbootapp
+spec:
+  lookupPolicy:
+    local: false
+status:
+  dockerImageRepository: image-registry.openshift-image-registry.svc:5000/dev-apps/springbootapp
+  tags:
+  - items:
+    - created: "2022-03-24T06:50:42Z"
+      dockerImageReference: image-registry.openshift-image-registry.svc:5000/dev-apps/springbootapp@sha256:41169c1524de42e36f4cfcfadaceecffb75fbf4cd776ab9199df95cb7cd70f9b
+      generation: 1
+      image: sha256:41169c1524de42e36f4cfcfadaceecffb75fbf4cd776ab9199df95cb7cd70f9b
+    tag: latest

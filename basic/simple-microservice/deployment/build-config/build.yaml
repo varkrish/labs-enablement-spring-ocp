@@ -1,0 +1,35 @@
+#use oc start-build springbootapp --from-dir=../../dist since it is binary upload
+kind: Build
+apiVersion: build.openshift.io/v1
+metadata:
+  annotations:
+    openshift.io/build-config.name: springbootapp
+    openshift.io/build.pod-name: springbootapp-3-build
+  namespace: dev-apps
+  labels:
+    build: springbootapp
+    buildconfig: springbootapp
+    openshift.io/build-config.name: springbootapp
+    openshift.io/build.start-policy: Serial
+spec:
+  serviceAccount: builder
+  source:
+    type: Binary
+    binary: {}
+    dockerfile: |-
+      FROM openjdk:11
+      COPY app.jar /
+      ENTRYPOINT ["java","-jar","/app.jar"]
+  strategy:
+    type: Docker
+    dockerStrategy:
+      from:
+        kind: DockerImage
+        name: >-
+          openjdk@sha256:4449cc0f4498abae89db038632e21301f7c3efe7f547cff10f4c6ff8dad5cba7
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'springbootapp:latest'
+    pushSecret:
+      name: builder-dockercfg-bmtkf

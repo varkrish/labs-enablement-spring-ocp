@@ -1,0 +1,82 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: {{ include "rollouts-blue-green.fullname" . }}
+  labels:
+    {{- include "rollouts-blue-green.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "rollouts-blue-green.selectorLabels" . | nindent 6 }}
+  strategy:
+    blueGreen:
+      activeService: {{ include "rollouts-blue-green.fullname" . }}
+      previewService: {{ include "rollouts-blue-green.fullname" . }}-preview
+      previewReplicaCount:
+      autoPromotionEnabled: {{ .Values.rollouts.autoPromotionEnabled }}
+      autoPromotionSeconds: {{ .Values.rollouts.autoPromotionSeconds }}
+      scaleDownDelaySeconds: {{ .Values.rollouts.scaleDownDelaySeconds }}
+      scaleDownDelayRevisionLimit: {{ .Values.rollouts.scaleDownDelayRevisionLimit }}
+      abortScaleDownDelaySeconds: {{ .Values.rollouts.abortScaleDownDelaySeconds }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "rollouts-blue-green.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "rollouts-blue-green.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: server.port
+              value: {{ .Values.service.port | quote }}
+            - name: SPRING_CLOUD_CONFIG_ENABLED
+              value: {{ .Values.spring.cloud.config.enabled | quote }}
+            - name: SPRING_CLOUD_CONFIG_URI
+              value: {{ .Values.spring.cloud.config.uri | quote }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          {{- if .Values.probes.livenessProbe.enabled }}
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.probes.livenessProbe.path }}
+              port: http
+          {{- end }}
+          {{- if .Values.probes.readinessProbe.enabled }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.porbes.readinessProbe.path }}
+              port: http
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

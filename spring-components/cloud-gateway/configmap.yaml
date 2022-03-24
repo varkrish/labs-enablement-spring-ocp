@@ -1,0 +1,11 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: <change me>
+data:
+  application.properties: |-
+    spring.cloud.gateway.routes[0].id=sample_route
+    spring.cloud.gateway.routes[0].uri=http://<change me>
+    spring.cloud.gateway.routes[0].predicates[0]=Method=GET
+    spring.cloud.gateway.routes[0].predicates[1]=Path=/<change me>
+    management.endpoints.web.exposure.include=*

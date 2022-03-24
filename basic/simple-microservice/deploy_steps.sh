@@ -66,6 +66,21 @@ oc get svc/springbootapp -o yaml > service.yaml
 oc get secrets/my-secret -o yaml >secret.yaml
 oc get configmap/springbootapp-config -o yaml  > configmap.yaml
 
+======
+#-> cluster infra
+oc apply -f cluster/project.yaml
+# -> build infra
+oc apply -f deployment/build-config/buildconfig.yaml
+oc apply -f deployment/build-config/is_jdk11.yaml
+oc apply -f deployment/build-config/imagestream.yaml
+#app deployment -> becuase binary mode
+oc start-build springbootapp --from-dir ./dist --follow  
+#
+oc apply -f deployment.yaml
+oc apply -f service.yaml
+oc apply -f route.yaml
+oc apply -f configmap.yaml
+oc apply -f secrets.yaml
 
 
 =====

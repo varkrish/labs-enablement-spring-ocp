@@ -93,6 +93,7 @@ spring:
   cloud:
     config:
       enabled: false 
+      uri: http://config-server:8080
 
 probes:
   livenessProbe:

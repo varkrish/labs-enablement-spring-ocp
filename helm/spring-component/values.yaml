@@ -5,10 +5,10 @@
 replicaCount: 1
 
 image:
-  repository: nginx
+  repository: quay.io/estaana/config-gateway
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: "latest"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -84,7 +84,8 @@ affinity: {}
 spring: 
   cloud:  
     config:
-      enabled: true
+      enabled: false
+      uri: http://config-server:8080
 
 probes:
   livenessProbe:

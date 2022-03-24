@@ -48,6 +48,8 @@ spec:
               value: {{ .Values.service.port | quote }}
             - name: SPRING_CLOUD_CONFIG_ENABLED
               value: {{ .Values.spring.cloud.config.enabled }}
+            - name: SPRING_CLOUD_CONFIG_URI
+              value: {{ .Values.spring.cloud.config.uri }}
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}

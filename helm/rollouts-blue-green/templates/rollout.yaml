@@ -45,7 +45,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: server.port
-              value: {{ .Values.service.port }}
+              value: {{ .Values.service.port | quote }}
             - name: SPRING_CLOUD_CONFIG_ENABLED
               value: {{ .Values.spring.cloud.config.enabled }}
           ports:

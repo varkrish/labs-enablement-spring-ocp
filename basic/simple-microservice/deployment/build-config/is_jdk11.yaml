@@ -1,0 +1,23 @@
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  annotations:
+    openshift.io/generated-by: OpenShiftNewBuild
+  generation: 5
+  labels:
+    build: springbootapp
+  name: openjdk
+  namespace: dev-apps
+spec:
+  lookupPolicy:
+    local: false
+  tags:
+  - annotations: null
+    from:
+      kind: DockerImage
+      name: docker.io/openjdk:11
+    generation: 5
+    importPolicy: {}
+    name: "11"
+    referencePolicy:
+      type: Source

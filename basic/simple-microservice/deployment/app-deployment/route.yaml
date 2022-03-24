@@ -1,0 +1,12 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: springbootapp
+spec:
+  port:
+    targetPort: 8080-8080
+  to:
+    kind: Service
+    name: springbootapp
+    weight: 100
+  wildcardPolicy: None

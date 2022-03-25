@@ -20,19 +20,20 @@ spring-components<br>
 |<br>
 |-- cloud-gateway<br>
 |-- config-service<br>
-<br>
-<br>
+
+
 basic<br>
 simple-microservice
-- a simple spring boot REST application to demonstrate GET methods
-<br>
+- a simple spring boot REST application to demonstrate GET methods<br>
+
 simple-microservice-client
-- a simple spring boot REST application that calls to the simple-microservice ap
-<br>
-helm
+- a simple spring boot REST application that calls to the simple-microservice app<br>
+
+
+helm<br>
 ci-common-charts
 - {description}
-<br>
+
 rollouts-blue-green
 - a helm chart that uses Argo Rollouts Blue-Green deployment strategy
 - creates the following k8s objects
@@ -47,12 +48,11 @@ rollouts-blue-green
 - to quickly deploy the chart set the following, check the Values.yaml file for full list of properties that can be set
     - image.repository
     - image.tag
-    - rollouts.autoPromotionEnabled (bool) -> set to true on Values.yaml, controls the deployment if the blue (preview) will be automatically promoted to green (stable). If set to falls, manual promotion can be done using the Argo Rollouts UI or cli
-<br>
+    - rollouts.autoPromotionEnabled (bool) -> set to true on Values.yaml, controls the deployment if the blue (preview) will be automatically promoted to green (stable). If set to falls, manual promotion can be done using the Argo Rollouts UI or cli<br>
+
 rollouts-canary (not yet tested WIP)
 - a helm chart that uses Argo Rollouts Canary deployment strategy
-<br>
-<br>
+
 spring-components
 - a helm chart that deploys a spring boot image
 - creates the following k8s objects
@@ -65,7 +65,8 @@ spring-components
 - to quickly deploy the chart set the following, check the Values.yaml file for full list of properties that can be set
     - image.repository
     - image.tag
-<br>
+
+
 spring-config-server
 - a helm chart that deploys a spring boot image with PVC and XDG_HOME_CONFIG set to /tmp
 - creates the following k8s objects
@@ -77,18 +78,13 @@ spring-config-server
 - to quickly deploy the chart set the following, check the Values.yaml file for full list of properties that can be set
     - image.repository
     - image.tag
-<br>
-<br>
-spring-components
+
+
+spring-components<br>
 cloud-gateway
 - a simple spring boot cloud gateway app that uses application.properties to configure the gateway
 - no security is implemented
-<br>
+
 config-service
 - a simple spring config server app that uses application.properties to configure the config server
 - no security is implemented
-
-
-
-
-

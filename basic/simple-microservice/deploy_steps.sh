@@ -83,6 +83,49 @@ oc apply -f configmap.yaml
 oc apply -f secrets.yaml
 
 
+=============
+Deploy config servertool
+----------------
+oc create configmap springbootapp-configs  --from-file=application.properties
+cat Dockerfile | oc new-build -D - --name config-server
+mkdir dist && cp target/*.jar dist/app.jar
+oc start-build config-server --from-dir ./dist --follow  
+oc new-app --name config-server config-server -l app=config-server
+oc set env --from=configmap/springbootapp-configs deployment/springbootapp-configserver
+oc edit deployments/config-server
+add======
+  volumeMounts:
+  - mountPath: /config/application.properties
+    name: configs
+terminationGracePeriodSeconds: 30
+volumes:
+ - name: configs
+   configMap:
+     name: springbootapp-configs
+========
+oc create service clusterip config-server -o yaml --dry-run=client --tcp=8888:8888 \
+    | oc set selector --local -f - 'deployment=config-server' -o yaml | oc create -f -
+
+#Config server connection
+3. Attach config map to a deployment 
+    oc create configmap springbootapp-config-client \
+         --from-literal=spring.config.import=optional:configserver:http://config-server:8888 
+         --from-literal=spring.
+    oc new-app  --name springbootapp-configclient springbootapp
+    oc set env --from=configmap/springbootapp-config-client deployment/springbootapp-configclient
+
+#spring.config.import=optional:configserver:http://root:s3cr3t@localhost:8888
+
+ConfigReload:
+======
+kubectl create clusterrolebinding 
+<view-name> --clusterrole=view
+ --serviceaccount=<namespace>:default --namespace=<namespace>
+spring.cloud.kubernetes.reload.enabled=true
+spring.cloud.kubernetes.reload.strategy=refresh
+@RefreshScope
+
+========
 =====
 Intro
 =====

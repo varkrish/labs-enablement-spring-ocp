@@ -12,7 +12,7 @@ public class RestService {
 
 	private static final String template = "Hello, %s!";
 	private final AtomicLong counter = new AtomicLong();
-	@Value("${spring.application.name:myapp}")
+	@Value("${app.name:myapp}")
 	private String applicationName;
 	@GetMapping("/rest")
 	public String greeting(@RequestParam(value = "name", defaultValue = "World") String name) {

@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: "2022-03-28T00:14:14Z"
+  labels:
+    app: config-server
+  managedFields:
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:labels:
+          .: {}
+          f:app: {}
+      f:spec:
+        f:internalTrafficPolicy: {}
+        f:ports:
+          .: {}
+          k:{"port":8888,"protocol":"TCP"}:
+            .: {}
+            f:name: {}
+            f:port: {}
+            f:protocol: {}
+            f:targetPort: {}
+        f:selector: {}
+        f:sessionAffinity: {}
+        f:type: {}
+    manager: kubectl-create
+    operation: Update
+    time: "2022-03-28T00:14:14Z"
+  name: config-server
+  namespace: dev-apps
+  resourceVersion: "20487231"
+  uid: be5d7738-821a-4efb-a302-3eb7ac5fe57b
+spec:
+  clusterIP: 172.30.10.173
+  clusterIPs:
+  - 172.30.10.173
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: 8888-8888
+    port: 8888
+    protocol: TCP
+    targetPort: 8888
+  selector:
+    deployment: config-server
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}

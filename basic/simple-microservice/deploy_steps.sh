@@ -86,16 +86,17 @@ oc apply -f secrets.yaml
 =============
 Deploy config servertool
 ----------------
-oc create configmap springbootapp-configs  --from-file=application.properties
+oc delete configmap/springbootapp-configs
+oc create configmap springbootapp-configs  --from-file=simple-microservice.properties
 cat Dockerfile | oc new-build -D - --name config-server
 mkdir dist && cp target/*.jar dist/app.jar
 oc start-build config-server --from-dir ./dist --follow  
 oc new-app --name config-server config-server -l app=config-server
-oc set env --from=configmap/springbootapp-configs deployment/springbootapp-configserver
+
 oc edit deployments/config-server
 add======
   volumeMounts:
-  - mountPath: /config/application.properties
+  - mountPath: /config/
     name: configs
 terminationGracePeriodSeconds: 30
 volumes:
@@ -103,6 +104,7 @@ volumes:
    configMap:
      name: springbootapp-configs
 ========
+oc apply -f config-server-deploy.yaml
 oc create service clusterip config-server -o yaml --dry-run=client --tcp=8888:8888 \
     | oc set selector --local -f - 'deployment=config-server' -o yaml | oc create -f -
 

@@ -25,8 +25,8 @@ node('maven-helm') {
             sh "oc tag cicd/simple-microservice:latest dev-apps/simple-microservice:${tag} "
 
             sh "oc project dev-apps"
-            sh "oc new-app --docker-image=dev-apps/simple-microservice:${tag} --name=simple-microservice || true"
-            sh "oc create route edge --service simple-microservice  || true"
+            sh "oc new-app --docker-image=image-registry.openshift-image-registry.svc:5000/dev-apps/simple-microservice:${tag} --name=simple-microservice || true"
+            sh "oc create route edge --service simple-microservice --port=8100  || true"
         }
     }
 }

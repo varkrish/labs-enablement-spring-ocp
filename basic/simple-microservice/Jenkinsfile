@@ -1,0 +1,32 @@
+node('maven-helm') {
+    def tag;
+
+    stage ('pull code') {
+        sh "git clone https://github.com/edwin/labs-enablement-spring-ocp source "
+    }
+    stage ('mvn build') {
+        dir("source") {
+            tag = sh(returnStdout: true, script: "git rev-parse --short=10 HEAD").trim();
+
+            sh "mkdir build-folder"
+            sh "mkdir properties-folder"
+            sh "mvn -B clean package -Dmaven.repo.local=/tmp/source/m2 -f basic/simple-microservice/pom.xml"
+
+            sh "cp basic/simple-microservice/Dockerfile build-folder/Dockerfile"
+            sh "cp basic/simple-microservice/target/*.jar build-folder/app.jar"
+        }
+    }
+    stage ('build and push') {
+        dir("source") {
+            sh "oc new-build --strategy docker --binary  \
+                        --name simple-microservice \
+                        --docker-image docker.io/openjdk:11  || true"
+            sh "oc start-build simple-microservice --from-dir=build-folder/. --follow --wait "
+            sh "oc tag cicd/simple-microservice:latest dev-apps/simple-microservice:${tag} "
+
+            sh "oc project dev-apps"
+            sh "oc new-app --docker-image=dev-apps/simple-microservice:${tag} --name=simple-microservice || true"
+            sh "oc create route edge --service simple-microservice  || true"
+        }
+    }
+}

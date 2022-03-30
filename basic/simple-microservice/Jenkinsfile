@@ -20,7 +20,7 @@ node('maven-helm') {
         dir("source") {
             sh "oc new-build --strategy docker --binary  \
                         --name simple-microservice \
-                        --docker-image docker.io/openjdk:11  || true"
+                        --image docker.io/openjdk:11  || true"
             sh "oc start-build simple-microservice --from-dir=build-folder/. --follow --wait "
             sh "oc tag cicd/simple-microservice:latest dev-apps/simple-microservice:${tag} "
 

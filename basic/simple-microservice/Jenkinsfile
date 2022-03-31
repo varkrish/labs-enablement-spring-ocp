@@ -2,7 +2,7 @@ node('maven-helm') {
     def tag;
 
     stage ('pull code') {
-        sh "git clone https://github.com/edwin/labs-enablement-spring-ocp source "
+        sh "git clone https://github.com/varkrish/labs-enablement-spring-ocp source "
     }
     stage ('mvn build') {
         dir("source") {
@@ -18,15 +18,20 @@ node('maven-helm') {
     }
     stage ('build and push') {
         dir("source") {
-            sh "oc new-build --strategy docker --binary  \
-                        --name simple-microservice \
-                        --image docker.io/openjdk:11  || true"
-            sh "oc start-build simple-microservice --from-dir=build-folder/. --follow --wait "
-            sh "oc tag cicd/simple-microservice:latest dev-apps/simple-microservice:${tag} "
+            sh "cat Dockerfile | oc new-build -D - --name springbootapp || true"
+            sh "oc start-build springbootapp --from-dir=build-folder/. --follow --wait "
+            sh "oc tag cicd/springbootapp:latest dev-apps/springbootapp:${tag} "
 
             sh "oc project dev-apps"
-            sh "oc new-app --image=image-registry.openshift-image-registry.svc:5000/dev-apps/simple-microservice:${tag} --name=simple-microservice || true"
-            sh "oc create route edge --service simple-microservice --port=8100  || true"
+            sh "oc new-app --image=image-registry.openshift-image-registry.svc:5000/dev-apps/springbootapp:${tag} --name=springbootapp || true"
+           // sh "oc create route edge --service springbootapp --port=8100  || true"
+        }
+    }
+
+        stage ('deploy application') {
+        dir("source") {
+            sh "oc new-app -n dev-apps --image=image-registry.openshift-image-registry.svc:5000/dev-apps/springbootapp:${tag} --name=springbootapp || true"
+           // sh "oc create route edge --service springbootapp --port=8100  || true"
         }
     }
 }

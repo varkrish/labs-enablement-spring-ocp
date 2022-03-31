@@ -9,7 +9,6 @@ oc start-build springbootapp --from-dir ./dist --follow
 oc new-app --name springbootapp springbootapp -l app=springbootapp
 oc get pods -l deployment=springbootapp
 oc label dc springbootapp app=springbootapp
-oc new-app  --name springbootapp-2 springbootapp -e spring.application.name=test
 oc new-app  --name springbootapp-2 springbootapp -e app.name=test
 oc set env dc/springbootapp spring.application.name=springboot3
 ##Service to service communication
@@ -61,8 +60,7 @@ oc get routes/springbootapp -o yaml > route.yaml
     oc scale deployments/springbootapp-configmap-example --replicas 2
     oc autoscale deployments/springbootapp-configmap-example --min 3 --max 5 --cpu-percent=75 #hpa
     vpa for stateful apps.
-5. Adhoc tasks - Spring cloud task
-6. Jobs and cronjobs - Spring batch
+
    #TODO
 -----------
 ##config Part

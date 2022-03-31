@@ -23,8 +23,6 @@ node('maven-helm') {
             sh "oc tag cicd/springbootapp:latest dev-apps/springbootapp:${tag} "
 
             sh "oc project dev-apps"
-            sh "oc new-app --image=image-registry.openshift-image-registry.svc:5000/dev-apps/springbootapp:${tag} --name=springbootapp || true"
-           // sh "oc create route edge --service springbootapp --port=8100  || true"
         }
     }
 
@@ -33,5 +31,11 @@ node('maven-helm') {
             sh "oc new-app -n dev-apps --image=image-registry.openshift-image-registry.svc:5000/dev-apps/springbootapp:${tag} --name=springbootapp || true"
            // sh "oc create route edge --service springbootapp --port=8100  || true"
         }
+        stage ('deploy service') {
+        dir("source") {
+            sh "oc create service clusterip springbootapp -o yaml --dry-run=client --tcp=8100:8100 | oc set selector --local -f - 'deployment=springbootapp' -o yaml | oc create -f - || true"
+           // sh "oc create route edge --service springbootapp --port=8100  || true"
+        }
+
     }
 }

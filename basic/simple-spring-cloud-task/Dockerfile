@@ -11,5 +11,4 @@ RUN microdnf install --nodocs java-11-openjdk-headless tzdata    && \
 WORKDIR /work/
 COPY *.jar /work/app.jar
 
-EXPOSE 8080
 CMD ["java", "-jar", "app.jar"]

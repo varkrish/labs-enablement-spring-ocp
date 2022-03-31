@@ -18,7 +18,7 @@ node('maven-helm') {
     }
     stage ('build and push') {
         dir("source") {
-            sh "cat Dockerfile | oc new-build -D - --name springbootapp || true"
+            sh "cat build-folder/Dockerfile | oc new-build -D - --name springbootapp || true"
             sh "oc start-build springbootapp --from-dir=build-folder/. --follow --wait "
             sh "oc tag cicd/springbootapp:latest dev-apps/springbootapp:${tag} "
 

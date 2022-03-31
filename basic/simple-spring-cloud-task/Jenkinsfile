@@ -21,12 +21,7 @@ node('maven-helm') {
             sh "cat build-folder/Dockerfile | oc new-build -D - --name spring-cloud-task || true"
             sh "oc start-build spring-cloud-task --from-dir=build-folder/. --follow --wait "
             sh "oc tag cicd/spring-cloud-task:latest dev-apps/spring-cloud-task:${tag} "
-            sh "oc project dev-apps"
-        }
-    }
-    stage ('deploy application') {
-        dir("source") {
-            sh "oc new-app -n dev-apps --image=image-registry.openshift-image-registry.svc:5000/dev-apps/spring-cloud-task:${tag} --name=spring-cloud-task || true"
+            sh "oc tag cicd/spring-cloud-task:latest dev-apps/spring-cloud-task:latest "
         }
     }
 }

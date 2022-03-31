@@ -21,11 +21,9 @@ node('maven-helm') {
             sh "cat build-folder/Dockerfile | oc new-build -D - --name springbootapp || true"
             sh "oc start-build springbootapp --from-dir=build-folder/. --follow --wait "
             sh "oc tag cicd/springbootapp:latest dev-apps/springbootapp:${tag} "
-
             sh "oc project dev-apps"
         }
     }
-
         stage ('deploy application') {
         dir("source") {
             sh "oc new-app -n dev-apps --image=image-registry.openshift-image-registry.svc:5000/dev-apps/springbootapp:${tag} --name=springbootapp || true"

@@ -1,4 +1,4 @@
-package com.redhat.labs.sample.configuration;
+package com.redhat.openinnovationlabs.sample.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.task.configuration.DefaultTaskConfigurer;

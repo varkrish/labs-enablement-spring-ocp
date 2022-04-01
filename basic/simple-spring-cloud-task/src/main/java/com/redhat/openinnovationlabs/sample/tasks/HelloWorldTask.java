@@ -1,9 +1,9 @@
-package com.redhat.labs.sample.tasks;
+package com.redhat.openinnovationlabs.sample.tasks;
 
-import com.redhat.labs.sample.model.Transaction;
-import com.redhat.labs.sample.model.TransactionHistory;
-import com.redhat.labs.sample.repository.TransactionHistoryRepository;
-import com.redhat.labs.sample.repository.TransactionRepository;
+import com.redhat.openinnovationlabs.sample.model.Transaction;
+import com.redhat.openinnovationlabs.sample.model.TransactionHistory;
+import com.redhat.openinnovationlabs.sample.repository.TransactionHistoryRepository;
+import com.redhat.openinnovationlabs.sample.repository.TransactionRepository;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;

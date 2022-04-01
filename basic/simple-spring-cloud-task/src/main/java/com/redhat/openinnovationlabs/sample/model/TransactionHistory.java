@@ -1,4 +1,4 @@
-package com.redhat.labs.sample.model;
+package com.redhat.openinnovationlabs.sample.model;
 
 import javax.persistence.*;
 import java.math.BigDecimal;

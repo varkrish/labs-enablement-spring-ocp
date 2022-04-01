@@ -1,4 +1,4 @@
-package com.redhat.labs.sample;
+package com.redhat.openinnovationlabs.sample;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

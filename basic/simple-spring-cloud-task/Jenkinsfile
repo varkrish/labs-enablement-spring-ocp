@@ -30,6 +30,7 @@ node('maven-helm') {
                 -n labs-dev --as-deployment-config || true "
             sh "oc set env dc/spring-cloud-task --from=cm/spring-cloud-task-cm -n labs-dev || true"
             sh "oc set env dc/spring-cloud-task --from=secret/spring-cloud-task-secret -n labs-dev  || true"
+            sh "oc delete dc/spring-cloud-task-1 -n labs-dev  || true"
         }
     }
 }

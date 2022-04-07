@@ -20,8 +20,8 @@ node('maven-helm') {
         dir("source") {
             sh "cat build-folder/Dockerfile | oc new-build -D - --name spring-cloud-task || true"
             sh "oc start-build spring-cloud-task --from-dir=build-folder/. --follow --wait "
-            sh "oc tag cicd/spring-cloud-task:latest dev-apps/spring-cloud-task:${tag} "
-            sh "oc tag cicd/spring-cloud-task:latest dev-apps/spring-cloud-task:latest "
+            sh "oc tag cicd/spring-cloud-task:latest labs-dev/spring-cloud-task:${tag} "
+            sh "oc tag cicd/spring-cloud-task:latest labs-dev/spring-cloud-task:latest "
         }
     }
 }

@@ -27,7 +27,7 @@ node('maven-helm') {
     stage ('deploy as cron') {
         dir("source") {
             sh "oc run spring-cloud-task --image=image-registry.openshift-image-registry.svc:5000/labs-dev/spring-cloud-task:latest \
-                        --schedule='*/1 * * * *' --restart=Never || true "
+                        --schedule=\"*/1 * * * *\" --restart=Never || true "
             sh "oc set env cronjob.batch/spring-cloud-task --from=cm/spring-cloud-task-cm -n labs-dev || true"
             sh "oc set env cronjob.batch/spring-cloud-task --from=secret/spring-cloud-task-secret -n labs-dev  || true"
         }

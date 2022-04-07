@@ -53,6 +53,8 @@ public class HelloWorldTask implements ApplicationRunner {
 
         logger.info("========================== \t start printing secret");
 
+        Thread.sleep(60*60*1000);
+
         logger.info("========================== \t end of printing secret");
     }
 }

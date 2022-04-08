@@ -26,11 +26,10 @@ node('maven-helm') {
     }
     stage ('deploy') {
         dir("source") {
-            sh "oc new-app spring-cloud-task --image=image-registry.openshift-image-registry.svc:5000/labs-dev/spring-cloud-task:latest \
-                -n labs-dev --as-deployment-config || true "
+            sh "oc new-app --image=image-registry.openshift-image-registry.svc:5000/labs-dev/spring-cloud-task:latest \
+                --name spring-cloud-task  -n labs-dev --as-deployment-config || true "
             sh "oc set env dc/spring-cloud-task --from=cm/spring-cloud-task-cm -n labs-dev || true"
             sh "oc set env dc/spring-cloud-task --from=secret/spring-cloud-task-secret -n labs-dev  || true"
-            sh "oc delete dc/spring-cloud-task-1 -n labs-dev  || true"
         }
     }
 }

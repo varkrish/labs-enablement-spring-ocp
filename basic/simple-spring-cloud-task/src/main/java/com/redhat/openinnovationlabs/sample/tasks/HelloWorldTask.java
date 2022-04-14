@@ -7,7 +7,6 @@ import com.redhat.openinnovationlabs.sample.repository.TransactionRepository;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -50,11 +49,5 @@ public class HelloWorldTask implements ApplicationRunner {
         }
 
         logger.info("finish inputting data");
-
-        logger.info("========================== \t start printing secret");
-
-        Thread.sleep(60*60*1000);
-
-        logger.info("========================== \t end of printing secret");
     }
 }

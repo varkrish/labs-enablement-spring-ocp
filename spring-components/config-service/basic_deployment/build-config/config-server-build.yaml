@@ -1,0 +1,28 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  labels:
+  build: config-server
+  name: config-server
+  namespace: dev-apps
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: config-server:latest
+  postCommit: {}
+  resources: {}
+  runPolicy: Serial
+  source:
+    dockerfile: |-
+      FROM docker.io/openjdk:11-jdk
+      COPY app.jar /
+      ENTRYPOINT ["java","-jar","/app.jar"]
+    type: Dockerfile
+  strategy:
+    dockerStrategy:
+      from:
+        kind: ImageStreamTag
+        name: openjdk:11-jdk
+    type: Docker
+  successfulBuildsHistoryLimit: 5

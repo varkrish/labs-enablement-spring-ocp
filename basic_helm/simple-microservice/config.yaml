@@ -1,0 +1,4 @@
+indo:
+  env:
+    spring_profile: indo
+    appname: dbsindo

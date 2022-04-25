@@ -2,7 +2,56 @@ apiVersion: project.openshift.io/v1
 kind: Project
 metadata:
   annotations:
-    openshift.io/description: "Dev environment for Apps"
-    openshift.io/display-name: "dev-apps"
+    openshift.io/description: ""
+    openshift.io/display-name: ""
+    openshift.io/requester: varkrish
+    openshift.io/sa.scc.mcs: s0:c30,c0
+    openshift.io/sa.scc.supplemental-groups: 1000870000/10000
+    openshift.io/sa.scc.uid-range: 1000870000/10000
+  creationTimestamp: "2022-04-01T06:09:36Z"
+  labels:
+    kubernetes.io/metadata.name: dev-apps
+  managedFields:
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          f:openshift.io/sa.scc.mcs: {}
+          f:openshift.io/sa.scc.supplemental-groups: {}
+          f:openshift.io/sa.scc.uid-range: {}
+    manager: cluster-policy-controller
+    operation: Update
+    time: "2022-04-01T06:09:36Z"
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          .: {}
+          f:openshift.io/description: {}
+          f:openshift.io/display-name: {}
+          f:openshift.io/requester: {}
+        f:labels:
+          .: {}
+          f:kubernetes.io/metadata.name: {}
+    manager: openshift-apiserver
+    operation: Update
+    time: "2022-04-01T06:09:36Z"
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:spec:
+        f:finalizers: {}
+    manager: openshift-controller-manager
+    operation: Update
+    subresource: finalize
+    time: "2022-04-01T06:09:36Z"
   name: dev-apps
-
+  resourceVersion: "25036400"
+  uid: 669a6438-f3de-4ed2-8d8f-fbc57d8f47c5
+spec:
+  finalizers:
+  - kubernetes
+status:
+  phase: Active

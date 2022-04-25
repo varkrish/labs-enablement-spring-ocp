@@ -1,0 +1,6 @@
+dependencies:
+- name: common_ci_template
+  repository: http://localhost:8080/helm
+  version: 1.0.0
+digest: sha256:d49d985b653836792d84dc395d18f101fa38cc09104288cf949c20ec3aa0e580
+generated: "2022-04-07T15:20:30.567183+10:00"

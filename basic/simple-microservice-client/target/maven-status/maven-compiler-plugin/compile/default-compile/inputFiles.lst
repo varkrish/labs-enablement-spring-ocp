@@ -1,4 +1,2 @@
-/Users/estaana/Repo/labs-enablement-spring-ocp/basic/simple-microservice-client/src/main/java/com/redhat/openinnovationlabs/simplemicroserviceclient/ClientConfigProperties.java
-/Users/estaana/Repo/labs-enablement-spring-ocp/basic/simple-microservice-client/src/main/java/com/redhat/openinnovationlabs/simplemicroserviceclient/SimpleMicroserviceClientApplication.java
-/Users/estaana/Repo/labs-enablement-spring-ocp/basic/simple-microservice-client/src/main/java/com/redhat/openinnovationlabs/simplemicroserviceclient/ServiceConfigProperties.java
-/Users/estaana/Repo/labs-enablement-spring-ocp/basic/simple-microservice-client/src/main/java/com/redhat/openinnovationlabs/simplemicroserviceclient/RestService.java
+/Users/estaana/Repo/labs-enablement-spring-ocp/basic/simple-microservice-client/src/main/java/com/redhat/openinnovationlabs/microservice/simplemicroserviceclient/Controller.java
+/Users/estaana/Repo/labs-enablement-spring-ocp/basic/simple-microservice-client/src/main/java/com/redhat/openinnovationlabs/microservice/simplemicroserviceclient/SimpleMicroserviceClientApplication.java

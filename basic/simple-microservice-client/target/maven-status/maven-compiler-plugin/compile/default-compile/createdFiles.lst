@@ -1,4 +1,2 @@
-com/redhat/openinnovationlabs/simplemicroserviceclient/RestService.class
-com/redhat/openinnovationlabs/simplemicroserviceclient/SimpleMicroserviceClientApplication.class
-com/redhat/openinnovationlabs/simplemicroserviceclient/ServiceConfigProperties.class
-com/redhat/openinnovationlabs/simplemicroserviceclient/ClientConfigProperties.class
+com/redhat/openinnovationlabs/microservice/simplemicroserviceclient/SimpleMicroserviceClientApplication.class
+com/redhat/openinnovationlabs/microservice/simplemicroserviceclient/Controller.class

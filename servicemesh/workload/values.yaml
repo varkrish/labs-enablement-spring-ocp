@@ -1,0 +1,92 @@
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+# OpenShift objects
+route: false
+# if false use a kube deployment instead
+deploymentConfig: false
+replicas:
+  min: 1
+  max: 2
+image_repository: quay.io
+image_name: estaana/simple-service
+image_namespace: dbs-digi
+image_version: latest
+# enable image stream in chart 
+is:
+  enabled: false
+# use the image specified above as tag (else tag overridden in pipeline say)
+istag:
+  enabled: true
+controller:
+  enabled: true
+  type: deployment
+env:
+  server_port: 8080
+  spring.application.name: service1
+
+deploymentStrategy:
+  rollout:  
+    canary:
+      scaleDownDelaySeconds: 30
+      scaleDownDelayRevisionLimit: 10
+      abortScaleDownDelaySeconds: 30
+      maxUnavailable: 1
+      previewWeight: 50
+      trafficSplit: subset
+
+  # pipeline: 
+  #   routename: ""
+  #   bluegreen:
+  #     previewRoute:
+  #       enabled: true
+
+  # pipeline:
+  #   routename: dep-canary
+  #   canary:
+  #     previewWeight: 50
+
+  # rollout:
+  #   bluegreen:
+  #     previewReplicaCount: 1
+  #     autoPromotionEnabled: false 
+  #     scaleDownDelaySeconds: 30
+  #     scaleDownDelayRevisionLimit: 10
+  #     abortScaleDownDelaySeconds: 30
+  #     previewRoute:
+  #       enabled: true

@@ -15,11 +15,8 @@ public class IndexController {
     @GetMapping("/")
     public HashMap index() throws Exception {
         logger.debug("request served");
-
-        String hostname = InetAddress.getLocalHost().getHostName();
-
         return new HashMap<>() {{
-            put("hostname", hostname);
+            put("hostname", InetAddress.getLocalHost().getHostName());
         }};
     }
 }

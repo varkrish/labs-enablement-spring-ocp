@@ -1,0 +1,32 @@
+node('maven-helm') {
+    def tag;
+
+    stage ('pull code') {
+        sh "git clone https://github.com/edwin/labs-enablement-spring-ocp source "
+    }
+    stage ('mvn build') {
+        dir("source") {
+            tag = sh(returnStdout: true, script: "git rev-parse --short=8 HEAD").trim();
+
+            sh "mkdir build-folder"
+            sh "mvn -B clean package -Dmaven.repo.local=/tmp/source/m2 -f basic_helm/simple-daemonset-service/pom.xml"
+
+            sh "cp basic_helm/simple-daemonset-service/Dockerfile build-folder/Dockerfile"
+            sh "cp basic_helm/simple-daemonset-service/target/*.jar build-folder/app.jar"
+        }
+    }
+    stage ('build and push') {
+        dir("source") {
+            sh "cat build-folder/Dockerfile | oc new-build -D - --name simple-daemonset-service || true"
+            sh "oc start-build simple-daemonset-service --from-dir=build-folder/. --follow --wait "
+            sh "oc tag cicd/simple-daemonset-service:latest labs-dev/simple-daemonset-service:${tag} "
+            sh "oc tag cicd/simple-daemonset-service:latest labs-dev/simple-daemonset-service:latest "
+            sh "oc project labs-dev"
+        }
+    }
+    stage ('deploy application') {
+        dir("source") {
+            sh "helm upgrade --install daemonset-app basic_helm/simple-daemonset-service/deployment"
+        }
+    }
+}

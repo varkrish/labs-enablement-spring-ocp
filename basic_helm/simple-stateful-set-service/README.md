@@ -1,4 +1,4 @@
-# Sample Helm Chart for CronJob
+# Sample Helm Chart for StatefulSet
  
 ## How To Debug 
 

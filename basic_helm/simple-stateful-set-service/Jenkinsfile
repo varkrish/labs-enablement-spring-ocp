@@ -1,0 +1,32 @@
+node('maven-helm') {
+    def tag;
+
+    stage ('pull code') {
+        sh "git clone https://github.com/edwin/labs-enablement-spring-ocp source "
+    }
+    stage ('mvn build') {
+        dir("source") {
+            tag = sh(returnStdout: true, script: "git rev-parse --short=8 HEAD").trim();
+
+            sh "mkdir build-folder"
+            sh "mvn -B clean package -Dmaven.repo.local=/tmp/source/m2 -f basic_helm/simple-stateful-set-service/pom.xml"
+
+            sh "cp basic_helm/simple-stateful-set-service/Dockerfile build-folder/Dockerfile"
+            sh "cp basic_helm/simple-stateful-set-service/target/*.jar build-folder/app.jar"
+        }
+    }
+    stage ('build and push') {
+        dir("source") {
+            sh "cat build-folder/Dockerfile | oc new-build -D - --name simple-stateful-set-service || true"
+            sh "oc start-build simple-stateful-set-service --from-dir=build-folder/. --follow --wait "
+            sh "oc tag cicd/simple-stateful-set-service:latest labs-dev/simple-stateful-set-service:${tag} "
+            sh "oc tag cicd/simple-stateful-set-service:latest labs-dev/simple-stateful-set-service:latest "
+            sh "oc project labs-dev"
+        }
+    }
+    stage ('deploy application') {
+        dir("source") {
+            sh "helm upgrade --install simple-stateful-set-service basic_helm/simple-stateful-set-service/deployment"
+        }
+    }
+}

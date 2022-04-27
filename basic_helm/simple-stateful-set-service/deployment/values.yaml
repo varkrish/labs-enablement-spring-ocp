@@ -10,7 +10,7 @@ controller:
 
 # images
 image_repository: image-registry.openshift-image-registry.svc:5000
-image_name: simple-statefulset-service
+image_name: simple-stateful-set-service
 image_namespace: labs-dev
 image_version: latest
 

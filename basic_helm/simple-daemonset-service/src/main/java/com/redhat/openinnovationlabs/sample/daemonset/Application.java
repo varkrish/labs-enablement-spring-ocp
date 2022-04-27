@@ -1,4 +1,4 @@
-package com.redhat.openinnovationlabs.sample.statefulset;
+package com.redhat.openinnovationlabs.sample.daemonset;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,0 +1,19 @@
+apiVersion: maistra.io/v2
+kind: ServiceMeshControlPlane
+metadata:
+  name: {{ include "dbs-servicemesh.fullname" . }}
+spec:
+  version: v2.1
+  tracing:
+    type: Jaeger
+    sampling: 10000
+  policy:
+    type: Istiod
+  telemetry:
+    type: Istiod
+  addons:
+    {{ toYaml .Values.controlPlane.addons | nindent 4}}
+  {{ if .Values.controlPlane.runtime }}
+  runtime:
+    {{ toYaml .Values.controlPlane.runtime | nindent 4 }}
+  {{ end }}

@@ -109,5 +109,14 @@ $ helm install deployment --dry-run --generate-name
 
 if it is successful then can install it directly
 ```
-$ helm upgrade --install stateful-set-app basic_helm/simple-stateful-set-service/deployment
+$ helm upgrade --install daemonset-app basic_helm/simple-stateful-set-service/deployment
 ```
+
+
+## How to Test
+Running below command will test this Helm deployment
+```
+$ helm test daemonset-app
+```
+
+Test cases ate under `deployment\templates\tests` folder.

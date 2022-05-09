@@ -27,6 +27,9 @@ node('maven-helm') {
     stage ('deploy application') {
         dir("source") {
             sh "helm upgrade --install daemonset-app basic_helm/simple-daemonset-service/deployment"
+            // wait for 10 seconds until pod is up
+            sh "sleep 10"
+            sh "helm test daemonset-app "
         }
     }
 }

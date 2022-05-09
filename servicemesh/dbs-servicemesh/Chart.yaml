@@ -1,0 +1,6 @@
+apiVersion: v2
+name: dbs-servicemesh
+description: A Helm chart for deploying Servicemesh ControlPlane, MemberRoll, VirtualService and DestinationRule
+type: application
+version: 1.0.0
+appVersion: "2.1.2"

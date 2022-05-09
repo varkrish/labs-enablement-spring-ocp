@@ -1,0 +1,47 @@
+controlPlane:
+  addons:
+    jaeger:
+      install:
+        storage:
+          type: Memory
+    prometheus:
+      enabled: true
+    kiali:
+      enabled: true
+    grafana:
+      enabled: true
+  # runtime: 
+  #   components:
+  #     tracing.jaeger.elasticsearch: # only supports resources and image name
+  #       container:
+  #         resources: {}
+memberroll:
+  members:
+    - samplemesh
+destinationRule:
+  enabled: false
+  host: review
+  subsets:
+  - name: v1                  
+    labels:
+      version: v1       
+virtualService:
+  enabled: false
+  hosts:
+  - reviews                   # interpreted as reviews.foo.svc.cluster.local
+  http:
+  - match:                    # uri segment matching
+    - uri:
+        prefix: "/wpcatalog"
+    - uri:
+        prefix: "/consumercatalog"
+    rewrite:                  # rewrite to new uri
+      uri: "/newcatalog"
+    route:
+    - destination:
+        host: reviews         # interpreted as reviews.foo.svc.cluster.local
+        subset: v2            # maps to DestinationRule (service name/subset name)
+  - route:
+    - destination:
+        host: reviews         # interpreted as reviews.foo.svc.cluster.local
+        subset: v1      

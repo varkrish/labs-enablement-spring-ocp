@@ -1,0 +1,11 @@
+{{- if .Values.destinationRule.enabled }}
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: {{ include "dbs-servicemesh.fullname" . }}               
+spec:
+  host: {{ .Values.destinationRule.host }}               
+  subsets:
+  {{ toYaml .Values.destinationRule.subsets | nindent 4 }}
+{{- end }}

@@ -1,0 +1,26 @@
+{{- if .Values.route.enabled }}
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: {{ include "rollouts-blue-green.fullname" . }}
+  labels:
+    {{- include "rollouts-blue-green.labels" . | nindent 4 }}
+  {{- if .Values.route.generatedHost }}
+  annotations:
+    openshift.io/host.generated: 'true'
+  {{- end }}
+spec:
+  {{- if not .Values.route.generatedHost }}
+  host: {{ .Values.route.host }}
+  {{- end }}
+  to:
+    kind: Service
+    name: {{ include "rollouts-blue-green.fullname" . }}
+    weight: 100
+  port:
+    targetPort: {{ .Values.service.port }}
+  tls:
+    termination: {{ .Values.route.termination }}
+    insecureEdgeTerminationPolicy: {{ .Values.route.insecureEdgeTerminationPolicy }}
+  wildcardPolicy: None
+{{- end }}

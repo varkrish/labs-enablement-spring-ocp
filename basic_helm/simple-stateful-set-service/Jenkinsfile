@@ -26,9 +26,9 @@ node('maven-helm') {
     }
     stage ('deploy application') {
         dir("source") {
-            // sh "helm upgrade --install stateful-set-app basic_helm/simple-stateful-set-service/deployment"
+            sh "helm upgrade --install stateful-set-app basic_helm/simple-stateful-set-service/deployment"
             // wait for 30 seconds until pod is up
-            // sh "sleep 30"
+            sh "sleep 30"
             sh "helm test stateful-set-app --debug "
         }
     }

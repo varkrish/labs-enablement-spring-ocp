@@ -10,6 +10,6 @@ spec:
     containers:
         - name: wget
           image: image-registry.openshift-image-registry.svc:5000/labs-dev/busybox:latest
-          command: ['wget']
-          args: ['{{ include "app.fullname" . }}:{{ .Values.service.port }}']
+          command: ["/bin/sh","-c"]
+          args: ['wget {{ include "app.fullname" . }}:{{ .Values.service.port }}  -O /tmp/index.html']
     restartPolicy: Never

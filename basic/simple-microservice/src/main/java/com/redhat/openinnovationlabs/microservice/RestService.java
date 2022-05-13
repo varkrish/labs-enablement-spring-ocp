@@ -7,6 +7,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.micrometer.core.annotation.Counted;
+import io.micrometer.core.annotation.Timed;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @RestController
 public class RestService {
 
@@ -14,12 +20,21 @@ public class RestService {
 	private final AtomicLong counter = new AtomicLong();
 	@Value("${app.name:myapp}")
 	private String applicationName;
+    
+	Logger logger = LoggerFactory.getLogger(RestService.class);
+
 	@GetMapping("/rest")
+	@Timed
+	@Counted
 	public String greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
+		logger.info("/rest called");
 		return " " + counter.incrementAndGet() + ". " +   String.format(template, name);
 	}
 	@GetMapping("/appname")
+	@Timed
+	@Counted
 	public String getName() {
+		logger.info(applicationName);
 		return applicationName;
 	}
 	

@@ -24,15 +24,13 @@ public class RestService {
 	Logger logger = LoggerFactory.getLogger(RestService.class);
 
 	@GetMapping("/rest")
-	@Timed
-	@Counted
+	@Timed(value="greeting.timed")
 	public String greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
 		logger.info("/rest called");
 		return " " + counter.incrementAndGet() + ". " +   String.format(template, name);
 	}
 	@GetMapping("/appname")
-	@Timed
-	@Counted
+	@Timed(value="getName.timed")
 	public String getName() {
 		logger.info(applicationName);
 		return applicationName;
